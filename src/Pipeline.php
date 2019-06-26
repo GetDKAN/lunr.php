@@ -6,6 +6,7 @@
  * Creates a simple pipeline to add functions to process tokens.
  */
 
+namespace LunrPHP;
 
 /**
  * Creates a simple pipeline to process tokens.
