@@ -25,9 +25,9 @@ $build = new BuildLunrIndex();
 $build->ref('identifier');
 $build->field("title");
 $build->field("description");
-$pipeline->add('LunrPHP\LunrDefaultPipelines::trimmer');
-$pipeline->add('LunrPHP\LunrDefaultPipelines::stop_word_filter');
-$pipeline->add('LunrPHP\LunrDefaultPipelines::stemmer');
+$build->addPipeline('LunrPHP\LunrDefaultPipelines::trimmer');
+$build->addPipeline('LunrPHP\LunrDefaultPipelines::stop_word_filter');
+$build->addPipeline('LunrPHP\LunrDefaultPipelines::stemmer');
 $string = file_get_contents("./fixtures/fixture.json");
 $datasets = json_decode($string, true);
 
