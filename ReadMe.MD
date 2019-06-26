@@ -10,7 +10,9 @@ This project creates an index for Lunr.js in PHP. This will allow you to generat
 
 ## Tests
 
-Coming soon.
+Run:
+
+``./vendor/bin/phpunit``
 
 ## Usage
 
