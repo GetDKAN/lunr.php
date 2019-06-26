@@ -2,16 +2,25 @@
   {
   	"title": "one title rule all",
   	"description": "this description brown red blue cow fox bird",
+    "theme" : [
+      "one", "fix", "thirty"
+    ],
   	"identifier": "id1"
   },
   {
   	"title": "one title bind them",
   	"description": "description fox bird",
+    "theme" : [
+      "title", "lousy", "monsters"
+    ],
   	"identifier": "id2"
   },
   {
   	"title": "one title find them",
   	"description": "title blue rule all three blue",
+    "theme" : [
+      "bin", "back", "boop"
+    ],
   	"identifier": "id3"
   }
 ]

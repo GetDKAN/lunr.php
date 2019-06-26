@@ -22,7 +22,7 @@ class BuildLunrIndex {
     $this->averageFieldLength = [];
   }
 
-  public function add($doc) {
+  public function add(array $doc) {
     $id = $doc[$this->ref];
     $this->documentCount++;
 
@@ -91,7 +91,7 @@ class BuildLunrIndex {
   private function getTermInIndex($term, $index, $id = FALSE) {
     $i = 0;
     foreach ($index as $entry) {
-      if ($term === $entry[0]) {
+      if ($term == $entry[0]) {
         if ($id) {
           return $i;
         }
@@ -104,9 +104,22 @@ class BuildLunrIndex {
     return FALSE;
   }
 
-  public function getTerms($string) {
-    $string = preg_replace("/[^A-Za-z0-9 ]/", '', $string);
-    return explode(" ", $string);
+  public function getTerms($item) {
+    $output = [];
+    if (is_array($item)) {
+      $terms = $item;
+    }
+    else {
+      $terms = explode(" ", $item);
+    }
+    foreach ($terms as $term) {
+      $output[] = $this->clean($term);
+    }
+    return $output;
+  }
+
+  private function clean(string $string) {
+    return preg_replace("/[^A-Za-z0-9 ]/", '', $string);
   }
 
   public function ref($ref) {
@@ -170,14 +183,10 @@ class BuildLunrIndex {
 
   private function createFieldVectors() {
     $fieldVectors = [];
-    //$fieldRefs = array_keys($this->fieldTermFrequencies);
 
     $termCache = [];
     $score = 0;
-  //  var_dump($fieldRefs);
-  //  var_dump(array_values($this->fieldTermFrequencies));
 
-    //return;
     foreach ($this->fieldTermFrequencies as $fieldRef => $terms) {
       $fieldLength = $this->fieldLengths[$fieldRef];
       $vector = [$fieldRef, []];
@@ -213,7 +222,7 @@ class BuildLunrIndex {
     $output->version = $this->version;
     $output->fields = $this->fields;
 
-    usort($this->invertedIndex, ['BuildLunrIndex', 'sortInvertedIndex']);
+    usort($this->invertedIndex, ['LunrPHP\BuildLunrIndex', 'sortInvertedIndex']);
 
     $this->calculateAverageFieldLengths();
     $this->createFieldVectors();
