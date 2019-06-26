@@ -1,5 +1,7 @@
 # Lunr Index Generator for PHP
 
+[![CircleCI](https://circleci.com/gh/CivicActions/lunr.php.svg?style=svg)](https://circleci.com/gh/CivicActions/lunr.php)
+
 This project creates an index for Lunr.js in PHP. This will allow you to generate a Lunr.js endpoint in a PHP application.
 
 ## Installation

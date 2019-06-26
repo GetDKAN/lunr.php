@@ -75,7 +75,7 @@ class BuildLunrIndex {
    * same formats as Lunr.js.
    */
   private function newFieldEntry(string $term, array $fields, string $field, int $termIndex, string $identifier) {
-    $fieldEntries = ["_index" => $this->termIndex];
+    $fieldEntries = ["_index" => $termIndex];
     foreach ($fields as $fi) {
       if ($field === $fi) {
         $id = (object)[$identifier => (object)[]];
@@ -88,7 +88,10 @@ class BuildLunrIndex {
     return [$term, (object)$fieldEntries];
   }
 
-  private function getTermInIndex($term, $index, $id = FALSE) {
+  /**
+   * Retrieves term from the inverted index.
+   */
+  private function getTermInIndex(string $term, $index, $id = FALSE) {
     $i = 0;
     foreach ($index as $entry) {
       if ($term == $entry[0]) {
