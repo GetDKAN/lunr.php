@@ -47,18 +47,18 @@ class BuildLunrIndex {
             $entry = $this->invertedIndex[$i];
             // Field already added to index.
             if (isset($entry[1]->{$field})) {
-              $entry[1]->{$field}->{$id} = new stdClass;
+              $entry[1]->{$field}->{$id} = (object)[];
             }
             // Add field to index.
             else {
-              $entry[1]->{$field} = (object)[$id => new stdClass];
+              $entry[1]->{$field} = (object)[$id => (object)[]];
             }
-            $entry[1]->{$field}->{$id} = new stdClass;
+            $entry[1]->{$field}->{$id} = (object)[];
             $this->invertedIndex[$i] = $entry;
           }
           // Term needs to be added to the index.
           else {
-            $idEntry = (object)[$id => new stdClass];
+            $idEntry = (object)[$id => (object)[]];
             $fieldEntry = $this->newFieldEntry($term, $this->fields, $field, $this->termIndex, $id);
             $this->invertedIndex[] = $fieldEntry;
             $this->termIndex++;
@@ -78,11 +78,11 @@ class BuildLunrIndex {
     $fieldEntries = ["_index" => $this->termIndex];
     foreach ($fields as $fi) {
       if ($field === $fi) {
-        $id = (object)[$identifier => new stdClass];
+        $id = (object)[$identifier => (object)[]];
         $fieldEntries[$fi] = $id;
       }
       else {
-        $fieldEntries[$fi] = new stdClass;
+        $fieldEntries[$fi] = (object)[];
       }
     }
     return [$term, (object)$fieldEntries];
@@ -209,7 +209,7 @@ class BuildLunrIndex {
   }
 
   public function output() {
-    $output = new stdClass;
+    $output = (object)[];
     $output->version = $this->version;
     $output->fields = $this->fields;
 

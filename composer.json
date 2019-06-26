@@ -1,5 +1,10 @@
 {
     "name": "CivicActions/lunr.php",
+    "autoload": {
+        "psr-4": {
+            "LunrPHP\\": "src/"
+        }
+    },
     "require": {
         "markfullmer/porter2": "^1.0"
     },

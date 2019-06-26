@@ -5,16 +5,18 @@
  * Demos for index builder.
  */
 
-include('./src/BuildLunrIndex.php');
-include('./src/Pipeline.php');
-include('./src/pipelines.php');
+include('./vendor/autoload.php');
+
+use LunrPHP\Pipeline;
+use LunrPHP\LunrDefaultPipelines;
+use LunrPHP\BuildLunrIndex;
 
 // Shows pipeline.
 $tokens = ["one", "two ", "the", "three", '$five', "description",];
 $pipeline = new Pipeline();
-$pipeline->add('trimmer');
-$pipeline->add('stop_word_filter');
-$pipeline->add('stemmer');
+$pipeline->add('LunrPHP\LunrDefaultPipelines::trimmer');
+$pipeline->add('LunrPHP\LunrDefaultPipelines::stop_word_filter');
+$pipeline->add('LunrPHP\LunrDefaultPipelines::stemmer');
 $results = $pipeline->run($tokens);
 var_dump($results);
 
@@ -23,9 +25,9 @@ $build = new BuildLunrIndex();
 $build->ref('identifier');
 $build->field("title");
 $build->field("description");
-$build->addPipeline('trimmer');
-$build->addPipeline('stop_word_filter');
-$build->addPipeline('stemmer');
+$pipeline->add('LunrPHP\LunrDefaultPipelines::trimmer');
+$pipeline->add('LunrPHP\LunrDefaultPipelines::stop_word_filter');
+$pipeline->add('LunrPHP\LunrDefaultPipelines::stemmer');
 $string = file_get_contents("./fixtures/fixture.json");
 $datasets = json_decode($string, true);
 

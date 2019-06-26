@@ -7,6 +7,7 @@
  * Pipeline functions for the index builder.
  */
 
+namespace LunrPHP;
 use markfullmer\porter2\Porter2;
 
 class LunrDefaultPipelines {
@@ -23,7 +24,7 @@ class LunrDefaultPipelines {
     return preg_replace("/[^A-Za-z0-9 ]/", '', $token);
   }
 
-  public $stopWords = [
+  public static $stopWords = [
     'a',
     'able',
     'about',
@@ -154,8 +155,7 @@ class LunrDefaultPipelines {
    *   Returns string it if not in the list, FALSE if it is.
    */
   public static function stop_word_filter(string $token) {
-    global $stopWords;
-    if (!in_array($token, $stopWords)) {
+    if (!in_array($token, self::$stopWords)) {
       return $token;
     }
     return FALSE;

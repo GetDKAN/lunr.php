@@ -24,10 +24,10 @@ Generating an index is similar to Lunr.js.
   $build->field("title");
   $build->field("description");
   // Add transforms to the pipeline.
-  $build->addPipeline('trimmer');
-  $build->addPipeline('stop_word_filter');
-  $build->addPipeline('stemmer');
-  // Load docs.
+  $pipeline->add('LunrPHP\LunrDefaultPipelines::trimmer');
+  $pipeline->add('LunrPHP\LunrDefaultPipelines::stop_word_filter');
+  $pipeline->add('LunrPHP\LunrDefaultPipelines::stemmer');
+ // Load docs.
   $string = file_get_contents("./fixtures/fixture.json");
   $datasets = json_decode($string, true);
   // Add documents to the index.
