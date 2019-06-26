@@ -1,5 +1,7 @@
 <?php
 
+namespace LunrPHP;
+
 class BuildLunrIndex {
 
   private $version = "2.3.6";
