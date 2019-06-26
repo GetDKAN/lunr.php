@@ -1,7 +1,9 @@
 {
-    "name": "partisan/lunrtest",
+    "name": "CivicActions/lunr.php",
     "require": {
-        "markfullmer/porter2": "^1.0",
+        "markfullmer/porter2": "^1.0"
+    },
+    "require-dev": {
         "phpunit/phpunit": "^8.2"
     }
 }
