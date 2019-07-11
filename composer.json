@@ -1,5 +1,5 @@
 {
-    "name": "CivicActions/lunr.php",
+    "name": "getdkan/lunr.php",
     "autoload": {
         "psr-4": {
             "LunrPHP\\": "src/"
