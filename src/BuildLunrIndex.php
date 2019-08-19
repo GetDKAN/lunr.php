@@ -109,8 +109,15 @@ class BuildLunrIndex {
 
   public function getTerms($item) {
     $output = [];
+    $terms = [];
+
     if (is_array($item)) {
-      $terms = $item;
+      foreach($item as $term) {
+        $exploded = explode(" ", strtolower($term));
+        foreach($exploded as $sub_term) {
+          $terms[] = $sub_term;
+        }
+      }
     }
     else {
       $terms = explode(" ", $item);
