@@ -109,8 +109,9 @@ class BuildLunrIndex {
 
   public function getTerms($item) {
     $output = [];
+    $terms = [];
     if (is_array($item)) {
-      $terms = $item;
+      $terms = $this->explodeItem($item);
     }
     else {
       $terms = explode(" ", $item);
@@ -119,6 +120,16 @@ class BuildLunrIndex {
       $output[] = $this->clean($term);
     }
     return $output;
+  }
+
+  private function explodeItem($item) {
+    foreach($item as $term) {
+      $exploded = explode(" ", strtolower($term));
+      foreach($exploded as $sub_term) {
+        $terms[] = $sub_term;
+      }
+    }
+    return $terms;
   }
 
   private function clean(string $string) {
