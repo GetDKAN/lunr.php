@@ -15,6 +15,8 @@ class BuildLunrIndex {
     $this->termIndex = 0;
     $this->fieldTermFrequencies = [];
     $this->fieldLengths = [];
+    $this->fieldBoosts = [];
+    $this->docBoosts = [];
     $this->pipeline = new Pipeline();
     $this->_b = 0.75;
     $this->_k1 = 1.2;
@@ -22,9 +24,13 @@ class BuildLunrIndex {
     $this->averageFieldLength = [];
   }
 
-  public function add(array $doc) {
+  public function add(array $doc, float $boost=null) {
     $id = $doc[$this->ref];
     $this->documentCount++;
+
+    if (!is_null($boost)) {
+        $this->docBoosts[$id] = $boost;
+    }
 
     foreach ($this->fields as $field) {
       if (isset($doc[$field]) && $doc[$field]) {
@@ -140,8 +146,11 @@ class BuildLunrIndex {
     $this->ref = $ref;
   }
 
-  public function field($field) {
+  public function field($field, float $boost=null) {
     $this->fields[] = $field;
+    if (!is_null($boost)) {
+      $this->fieldBoosts[$field] = $boost;
+    }
   }
 
   public function addPipeline(string $pipeline) {
@@ -205,7 +214,7 @@ class BuildLunrIndex {
       $fieldLength = $this->fieldLengths[$fieldRef];
       $vector = [$fieldRef, []];
       foreach ($terms as $term => $tf) {
-        $fieldName = explode("/", $fieldRef)[0];
+        list($fieldName, $docId) = explode("/", $fieldRef,2);
         $entry = $this->getTermInIndex($term, $this->invertedIndex);
         $termIndex = $entry[1]->{"_index"};
         if (!isset($termCache[$term])) {
@@ -215,9 +224,15 @@ class BuildLunrIndex {
           $idf = $termCache[$term];
         }
         $score = $idf * (($this->_k1 + 1) * $tf) / ($this->_k1 * (1 - $this->_b + $this->_b * ($fieldLength / $this->averageFieldLength[$fieldName])) + $tf);
-        // TODO: add boosts.
-        //$score *= fieldBoost
-        //score *= docBoost
+
+        // Apply boosts
+        if (isset($this->fieldBoosts[$fieldName])) {
+          $score *= $this->fieldBoosts[$fieldName];
+        }
+        if (isset($this->docBoosts[$docId])) {
+          $score *= $this->docBoosts[$docId];
+        }
+
         $scoreWithPrecision = round($score * 1000) / 1000;
         // Converts 1.23456789 to 1.234.
         // Reducing the precision so that the vectors take up less
